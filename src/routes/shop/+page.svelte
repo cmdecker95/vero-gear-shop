@@ -3,9 +3,11 @@
 </script>
 
 <ul>
-  {#each $data?.products as product}
+  {#each data.products as product}
     <li>
       <form method="POST" action="?/addToOrder">
-        {product.name}</li>
-  {/each} 
+        {product.hello}
+      </form>
+    </li>
+  {/each}
 </ul>
