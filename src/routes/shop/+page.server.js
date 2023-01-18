@@ -3,12 +3,13 @@ import db from "$lib/server/db";
 const collection = db.collection(process.env.COLLECTION);
 
 export const load = async () => {
-  const products = await collection.find().toArray();
-
+  const documents = await collection.find().toArray();
+  console.log(documents);
   return {
-    products: products.map((product) => ({
-      _id: product._id.str,
-      hello: product.hello,
+    products: documents.map((document) => ({
+      id: document._id.str,
+      name: document.name,
+      src: document.src,
     })),
   };
 };
