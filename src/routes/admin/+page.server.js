@@ -1,30 +1,39 @@
-import db from "$lib/server/db";
-
-const collection = db.collection(process.env.COLLECTION);
+import { prisma } from "$lib/server/prisma";
+import { fail } from "@sveltejs/kit";
 
 export const load = async () => {
-  const documents = await collection.find().toArray();
   return {
-    products: documents.map((document) => ({
-      id: document._id.str,
-      name: document.name,
-      src: document.src,
-    })),
+    products: await prisma.product.findMany(),
   };
 };
 
 export const actions = {
-  addproduct: async ({ request }) => {
+  addProduct: async ({ request }) => {
     const data = await request.formData();
     const name = data.get("name");
+    const price = data.get("price");
+    const colors = data.get("colors");
+    const sizes = data.get("sizes");
+
     const file = data.get("file");
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const string = buffer.toString("base64");
 
-    // Convert file to Data URL
-    const str = Buffer.from(await file.arrayBuffer()).toString("base64");
-    const src = `data:${file.type};base64,${str}`;
+    try {
+      await prisma.product.create({
+        data: {
+          image: `data:${file.type};base64,${string}`,
+          name,
+          price: parseFloat(price),
+          colors: colors.split(","),
+          sizes: sizes.split(","),
+        },
+      });
+    } catch (error) {
+      console.log("❌", error, "❌");
+      return fail(500, "oops");
+    }
 
-    await collection.insertOne({ name, src });
-
-    return { success: true };
+    return { success: true, status: 201 };
   },
 };
