@@ -1,6 +1,5 @@
 <script>
   export let data;
-  let testproducts = [{ name: "orange" }];
 </script>
 
 <div>
@@ -9,8 +8,7 @@
 </div>
 
 <div style="display: flex; flex-wrap: wrap">
-  <!-- {#each data.products as product} -->
-  {#each testproducts as product}
+  {#each data.products as product}
     <div
       style="width: 500px; height: 300px; box-shadow: 0 2px 6px 0 hsla(0, 0, 0, 0.1)"
     >

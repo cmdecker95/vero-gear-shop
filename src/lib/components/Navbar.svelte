@@ -8,20 +8,31 @@
 </script>
 
 <nav class="navbar bg-dark fixed-top" style="background-color: hsla(0,0,0,0.5)">
+  <!-- NAVBAR -->
   <div class="container-fluid">
     <a class="navbar-brand text-white bold" href="/">VERO Shop</a>
-    <div class="navbar-toggler" style="padding: 0">
-      <button
-        class="btn btn-light text-dark"
-        style="display: flex; align-items: center; gap: 0.5rem;"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasNavbar"
-      >
-        <img src={cartSVG} alt="cart" />
-        Cart ({cart.length})
-      </button>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <form action="/logout" method="post">
+        <button
+          class="btn btn-outline-secondary"
+          style="padding: 5px"
+          on:click={(e) => e.target.form.requestSubmit()}>Logout</button
+        >
+      </form>
+      <div class="navbar-toggler" style="padding: 0">
+        <button
+          class="btn btn-light text-dark"
+          style="display: flex; align-items: center; gap: 0.5rem; padding: 5px"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNavbar"
+        >
+          <img src={cartSVG} alt="cart" />
+          Cart ({cart.length})
+        </button>
+      </div>
     </div>
+
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Your Cart</h5>

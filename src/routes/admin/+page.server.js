@@ -1,8 +1,9 @@
 import { prisma } from "$lib/server/prisma";
-import { fail } from "@sveltejs/kit";
+import { fail, error, redirect } from "@sveltejs/kit";
 
-export const load = async () => {
+export const load = async ({ locals }) => {
   return {
+    user: locals.user,
     products: await prisma.product.findMany(),
   };
 };
@@ -31,7 +32,7 @@ export const actions = {
       });
     } catch (error) {
       console.log("❌", error, "❌");
-      return fail(500, "oops");
+      return fail(500, "Unable to create product");
     }
 
     return { success: true, status: 201 };

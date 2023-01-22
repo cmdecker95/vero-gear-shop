@@ -62,6 +62,17 @@
   $: ({ products } = data);
 </script>
 
+<svelte:head>
+  <title>Guarded page</title>
+</svelte:head>
+
+<h1>Guarded page</h1>
+<p>This page is guarded and will only be accessible to authenticated users.</p>
+
+{#if data.user}
+  <p>Hello {data.user.email}</p>
+{/if}
+
 <div class="container mt-5 card p-5">
   <h1 class="card-title mb-3">Add Product</h1>
   <div class="mb-3" style="border-bottom:solid 1px black;width:4rem" />

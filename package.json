@@ -19,6 +19,8 @@
 	"type": "module",
 	"dependencies": {
 		"@prisma/client": "^4.9.0",
-		"bootstrap-icons": "^1.10.3"
+		"bcryptjs": "^2.4.3",
+		"bootstrap-icons": "^1.10.3",
+		"jsonwebtoken": "^9.0.0"
 	}
 }
