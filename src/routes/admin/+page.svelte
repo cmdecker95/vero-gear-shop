@@ -8,184 +8,160 @@
 
   let newColor;
   let newSize;
-  let invalidColor = false;
-  let invalidSize = false;
-
   let files;
-  let preview;
 
   const colors = writable([]);
   const sizes = writable([]);
 
-  const addColor = () => {
-    invalidColor = $colors.find((color) => color == newColor.toUpperCase());
-    if (!invalidColor) {
+  function addColor() {
+    if ($colors.findIndex((color) => color === newColor.toUpperCase()) === -1)
       $colors = [...$colors, newColor.toUpperCase()];
-      newColor = undefined;
-    }
-  };
+    newColor = undefined;
+  }
 
-  const addSize = () => {
-    invalidSize = $sizes.find((size) => size == newSize.toUpperCase());
-    if (!invalidSize) {
+  function addSize() {
+    if ($sizes.findIndex((size) => size === newSize.toUpperCase()) === -1)
       $sizes = [...$sizes, newSize.toUpperCase()];
-      newSize = undefined;
-    }
-  };
+    newSize = undefined;
+  }
 
-  const deleteColor = (oldColor) => {
+  function deleteColor(oldColor) {
     $colors = $colors.filter((value) => value !== oldColor);
-  };
+  }
 
-  const deleteSize = (oldSize) => {
+  function deleteSize(oldSize) {
     $sizes = $sizes.filter((value) => value !== oldSize);
-  };
-
-  const showPreview = () => {
-    const reader = new FileReader();
-
-    reader.onloadend = () => (preview.src = reader.result);
-
-    if (files[0]) {
-      reader.readAsDataURL(files[0]);
-    } else {
-      preview.src = "";
-    }
-  };
+  }
 
   $: if (form?.success) {
     $colors = [];
     $sizes = [];
     files = null;
   }
-
-  $: ({ products } = data);
 </script>
 
-<svelte:head>
-  <title>Guarded page</title>
-</svelte:head>
+<h1>Admin</h1>
 
-<h1>Guarded page</h1>
-<p>This page is guarded and will only be accessible to authenticated users.</p>
-
-{#if data.user}
-  <p>Hello {data.user.email}</p>
-{/if}
-
-<div class="container mt-5 card p-5">
-  <h1 class="card-title mb-3">Add Product</h1>
-  <div class="mb-3" style="border-bottom:solid 1px black;width:4rem" />
+<article>
   <form method="POST" action="?/addProduct" use:enhance>
+    <h1>Add Product</h1>
     <!-- Product image -->
-    <div class="mb-3">
-      <img
-        style={files ? "" : "display:none"}
-        src=""
-        alt="Product"
-        bind:this={preview}
-      />
-      <input
-        class="form-control"
-        id="file"
-        type="file"
-        name="file"
-        bind:files
-        on:change={showPreview}
-        accept=".jpg, .jpeg, .png"
-        required
-      />
-      <p class="form-text">Product image (JPG, PNG)</p>
-    </div>
+    <section class="upload">
+      {#if files}
+        <img
+          style="max-width:50%"
+          src={URL.createObjectURL(files[0])}
+          alt="product"
+        />
+      {:else}
+        <label for="file">
+          <i class="fa-solid fa-file-arrow-up" />
+          Product image
+        </label>
+      {/if}
+    </section>
+
+    <input
+      id="file"
+      type="file"
+      name="file"
+      bind:files
+      accept=".jpg, .jpeg, .png"
+      style="display:none"
+      required
+    />
+
     <!-- Product name -->
-    <div class="form-floating mb-3">
-      <input
-        class="form-control"
-        id="name"
-        type="text"
-        name="name"
-        placeholder="#"
-        required
-      />
-      <label for="name">Product name</label>
-    </div>
+    <fieldset>
+      <input type="text" name="name" placeholder="Product name" required />
+    </fieldset>
+
     <!-- Product price -->
-    <div class="form-floating mb-3">
+    <fieldset>
       <input
-        class="form-control"
-        id="type"
         type="number"
         name="price"
-        placeholder="#"
+        step="0.01"
+        placeholder="Product price"
         required
       />
-      <label for="price">Price</label>
-    </div>
+    </fieldset>
+
     <!-- Product colors -->
     <form on:submit|preventDefault={addColor}>
-      <div class="form-floating mb-3" style="display:flex;gap:1rem">
+      <fieldset style="display:flex;gap:1rem">
         <input
-          class="form-control"
-          id="color"
           type="text"
           name="color"
           bind:value={newColor}
-          placeholder="#"
+          placeholder="Add a color..."
         />
-        <label for="color">Add a color</label>
-        <button class="btn btn-outline-primary" type="submit">Add</button>
-      </div>
-      {#if invalidColor}
-        <p class="form-text text-danger">Already added</p>
-      {/if}
+        <button class="contrast" style="padding:10px;width:100px">+</button>
+      </fieldset>
     </form>
-    <div class="container mb-3" style="display:flex;flex-direction:row">
+
+    <!-- Colors added -->
+    <div style="display:flex;flex-direction:row;gap:1rem">
       {#each $colors as color}
         <form on:submit|preventDefault={() => deleteColor(color)}>
-          <button class="btn p-0 m-0">
-            <span class="badge rounded-pill bg-dark mr-1 p-1">{color}</span>
-          </button>
+          <button class="outline contrast">{color}</button>
         </form>
       {/each}
     </div>
     <input type="hidden" name="colors" value={$colors} />
+
     <!-- Product sizes -->
     <form on:submit|preventDefault={addSize}>
-      <div class="form-floating mb-3" style="display:flex;gap:1rem">
+      <fieldset style="display:flex;gap:1rem">
         <input
-          class="form-control"
-          id="size"
           type="text"
           name="size"
           bind:value={newSize}
-          placeholder="#"
+          placeholder="Add a size..."
         />
-        <label for="size">Add a size</label>
-        <button class="btn btn-outline-primary" type="submit">Add</button>
-      </div>
-      {#if invalidSize}
-        <p class="form-text text-danger">Already added</p>
-      {/if}
+        <button class="contrast" style="width:100px">+</button>
+      </fieldset>
     </form>
-    <div class="container mb-3" style="display:flex;flex-direction:row">
+
+    <!-- Sizes added -->
+    <div style="display:flex;flex-direction:row;gap:1rem">
       {#each $sizes as size}
         <form on:submit|preventDefault={() => deleteSize(size)}>
-          <button class="btn p-0 m-0">
-            <span class="badge rounded-pill bg-dark mr-1">{size}</span>
-          </button>
+          <button class="outline contrast">{size}</button>
         </form>
       {/each}
     </div>
     <input type="hidden" name="sizes" value={$sizes} />
     <!-- SUBMIT -->
-    <button class="btn btn-primary" type="submit">Add Product</button>
+    <button class="contrast">Add product</button>
   </form>
-</div>
+</article>
 
-<div class="container mt-5 card p-5">
-  <h1>Products</h1>
-  <div class="mb-3" style="border-bottom:solid 1px black;width:4rem" />
-  {#each products as product}
-    <Product {...product} />
+<div class="products">
+  {#each data.products as product}
+    <Product {product} />
   {/each}
 </div>
+
+<style>
+  fieldset {
+    margin-bottom: 1rem;
+  }
+
+  .upload {
+    margin-bottom: 2rem;
+    text-align: center;
+    border: 1px dashed gray;
+    border-radius: 5px;
+    padding: 2rem;
+    color: gray;
+  }
+
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    row-gap: 1rem;
+    column-gap: 1rem;
+    justify-content: center;
+  }
+</style>

@@ -14,8 +14,8 @@ model Product {
   image     String
   name      String
   price     Float
-  colors    Json
-  sizes     Json
+  colors    String[]
+  sizes     String[]
 }
 
 model User {
@@ -27,4 +27,16 @@ model User {
   firstname String
   lastname  String
   role      String
+  orders    Order[]
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  products  Json
+  total     Float
+  fulfilled Boolean
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  userId    String
 }

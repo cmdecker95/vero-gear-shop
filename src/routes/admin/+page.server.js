@@ -1,11 +1,14 @@
 import { prisma } from "$lib/server/prisma";
-import { fail, error, redirect } from "@sveltejs/kit";
 
-export const load = async ({ locals }) => {
-  return {
-    user: locals.user,
-    products: await prisma.product.findMany(),
-  };
+export const load = async () => {
+  const title = "Admin";
+  let products = [];
+
+  products = await prisma.product
+    .findMany()
+    .catch((error) => console.log(error));
+
+  return { title, products };
 };
 
 export const actions = {
@@ -20,8 +23,8 @@ export const actions = {
     const buffer = Buffer.from(await file.arrayBuffer());
     const string = buffer.toString("base64");
 
-    try {
-      await prisma.product.create({
+    await prisma.product
+      .create({
         data: {
           image: `data:${file.type};base64,${string}`,
           name,
@@ -29,11 +32,8 @@ export const actions = {
           colors: colors.split(","),
           sizes: sizes.split(","),
         },
-      });
-    } catch (error) {
-      console.log("❌", error, "❌");
-      return fail(500, "Unable to create product");
-    }
+      })
+      .catch((error) => console.log(error));
 
     return { success: true, status: 201 };
   },

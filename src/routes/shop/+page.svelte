@@ -1,20 +1,43 @@
 <script>
+  import Product from "$lib/components/Product.svelte";
+
   export let data;
+
+  const addToCart = async ({ detail }) => {
+    await fetch("/api/cart", {
+      method: "POST",
+      body: JSON.stringify(detail),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+  };
 </script>
 
-<div>
-  <h1>Shop</h1>
-  <div style="border-bottom:solid 1px black;width:4rem" />
-</div>
+<header>
+  <article>
+    <h1>Shop</h1>
+    <p>
+      <strong>You're preordering stuff!</strong>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officia mollitia
+      quas reiciendis alias natus minima adipisci veritatis expedita temporibus tenetur
+      voluptas ea ducimus commodi ipsum, quod excepturi. Est, temporibus consequatur?
+    </p>
+  </article>
+</header>
 
-<div style="display: flex; flex-wrap: wrap">
+<div class="products">
   {#each data.products as product}
-    <div
-      style="width: 500px; height: 300px; box-shadow: 0 2px 6px 0 hsla(0, 0, 0, 0.1)"
-    >
-      <form method="POST" action="?/addToOrder">
-        {product.name}
-      </form>
-    </div>
+    <Product {product} />
   {/each}
 </div>
+
+<style>
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    row-gap: 1rem;
+    column-gap: 1rem;
+    justify-content: center;
+  }
+</style>

@@ -7,6 +7,7 @@ const generateToken = (user) => {
   return jwt.sign(
     {
       id: user.id,
+      name: user.firstname,
       email: user.email,
       role: user.role,
     },
@@ -33,6 +34,7 @@ export const authenticateUser = async ({ cookies }) => {
   // Return user to hook
   return {
     id: user.id,
+    name: user.firstname,
     email: user.email,
     role: user.role,
   };

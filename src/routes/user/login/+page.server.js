@@ -1,6 +1,15 @@
 import { fail, redirect } from "@sveltejs/kit";
 import { loginUser } from "$lib/server/auth";
 
+export const load = async ({ locals }) => {
+  const title = "Login";
+
+  if (locals.user) {
+    throw redirect(302, "/user/me");
+  }
+  return { title };
+};
+
 export const actions = {
   default: async ({ request, cookies }) => {
     const { email, password } = Object.fromEntries(await request.formData());
@@ -20,7 +29,6 @@ export const actions = {
       maxAge: 60 * 60 * 24 * 7, // 1 week
     });
 
-    // Redirect to the shop page
-    throw redirect(302, "/shop");
+    throw redirect(302, "/user/me");
   },
 };
