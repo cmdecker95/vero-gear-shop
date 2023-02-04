@@ -7,8 +7,8 @@
   <title>{$page.data.title} | VERO Shop</title>
 </svelte:head>
 
+<Navbar />
 <main class="container">
-  <Navbar />
   <slot />
 </main>
 

@@ -8,4 +8,6 @@ if (process.env.NODE_ENV === "development") {
   global.prisma = prisma;
 }
 
+console.log("🪄 Connected to Prisma client");
+
 export { prisma };

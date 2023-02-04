@@ -1,84 +1,106 @@
 import { json } from "@sveltejs/kit";
+import { getCart, setCart } from "$lib/utils";
 
-const setCartCookie = (cart, cookies) => {
-  cookies.set("cart", JSON.stringify(cart), {
-    path: "/",
-    httpOnly: true,
-    sameSite: "strict",
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 60 * 60 * 24 * 7, // 1 week
-  });
+export async function GET({ cookies }) {
+  console.log("🛒 Getting cart items...");
 
-  const newCart = cookies.get("cart");
-  console.log(`🛒 new cart (${JSON.parse(newCart).length}): ${newCart}`);
-};
+  const cart = getCart(cookies);
 
-export const GET = async ({ cookies }) => {
-  const cartString = cookies.get("cart") ?? "[]";
-  const cartParsed = JSON.parse(cartString);
+  console.log(`🛒 Cart (${cart.length} items)`);
+  cart.forEach((cartItem, i) => console.log(`🛒 Item ${i + 1}`, cartItem));
 
-  return json(cartParsed);
-};
+  return json(cart);
+}
 
-export const POST = async ({ request, cookies }) => {
+export async function POST({ request, cookies }) {
   const data = await request.json();
-  const item = { ...data, cartId: crypto.randomUUID() };
+  const { id, price, color, size, qty } = data;
+  const cartId = `${id}:${color}:${size}`;
+  const newItem = {
+    id,
+    price,
+    color,
+    size,
+    qty,
+    cartId,
+  };
 
-  const cartString = cookies.get("cart") ?? "[]";
-  const cartParsed = JSON.parse(cartString);
+  console.log("🛒 Adding new cart item:", newItem);
 
+  let cart = getCart(cookies);
   let duplicateItem = false;
-  for (let cartItem of cartParsed) {
-    if (
-      cartItem.id === item.id &&
-      cartItem.color === item.color &&
-      cartItem.size === item.size
-    ) {
+
+  // If the item is already in the cart, just add to the quantity
+  for (let cartItem of cart) {
+    if (cartItem.cartId === newItem.cartId) {
+      cartItem.qty += newItem.qty;
       duplicateItem = true;
-      cartItem.qty += item.qty;
     }
   }
 
-  const cart = duplicateItem ? cartParsed : [...cartParsed, item];
+  // Else, add the item normally
+  cart = duplicateItem ? cart : [...cart, newItem];
 
-  setCartCookie(cart, cookies);
+  setCart(cart, cookies);
   return json(cart);
-};
+}
 
-export const PUT = async ({ request, cookies }) => {
-  const item = await request.json();
+export async function PUT({ request, cookies }) {
+  const data = await request.json();
+  const { id, price, color, size, qty, oldCartId } = data;
+  const cartId = `${id}:${color}:${size}`;
+  const changedItem = {
+    id,
+    price,
+    color,
+    size,
+    qty,
+    cartId,
+  };
 
-  const cartString = cookies.get("cart") ?? "[]";
-  const cartParsed = JSON.parse(cartString);
-  const cartBefore = cartParsed.filter(
-    (cartItem) => cartItem.cartId !== item.cartId
-  );
+  console.log("🛒 Changing a cart item:", changedItem);
 
-  let duplicateItem = false;
-  for (let cartItem of cartParsed) {
-    if (
-      cartItem.id === item.id &&
-      cartItem.color === item.color &&
-      cartItem.size === item.size
-    ) {
-      duplicateItem = true;
-      cartItem.qty = item.qty;
+  let cart = getCart(cookies);
+
+  // If the cartId changed, delete the old item and handle the new one
+  if (cartId !== oldCartId) {
+    cart = cart.filter((cartItem) => cartItem.cartId !== oldCartId);
+
+    let duplicateItem = false;
+
+    // If the item is already in the cart, just add to the quantity
+    for (let cartItem of cart) {
+      if (cartItem.cartId === cartId) {
+        cartItem.qty += qty;
+        duplicateItem = true;
+      }
+    }
+
+    // Else, add the item normally
+    cart = duplicateItem ? cart : [...cart, changedItem];
+  }
+
+  // If cartId stayed the same, overwrite the quantity
+  else {
+    for (let cartItem of cart) {
+      if (cartItem.cartId === cartId) {
+        cartItem.qty = qty;
+      }
     }
   }
 
-  const cart = duplicateItem ? cartBefore : [...cartBefore, item];
-
-  setCartCookie(cart, cookies);
+  setCart(cart, cookies);
   return json(cart);
-};
+}
 
-export const DELETE = async ({ request, cookies }) => {
+export async function DELETE({ request, cookies }) {
   const { cartId } = await request.json();
 
-  const cartString = cookies.get("cart") ?? "[]";
-  const cartParsed = JSON.parse(cartString);
-  const cart = cartParsed.filter((cartItem) => cartItem.cartId !== cartId);
+  console.log("🛒 Deleting a cart item:", cartId);
 
-  setCartCookie(cart, cookies);
+  let cart = getCart(cookies);
+  cart = cart.filter((cartItem) => cartItem.cartId !== cartId);
+
+  setCart(cart, cookies);
   return json(cart);
-};
+}

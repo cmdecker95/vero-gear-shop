@@ -1,34 +1,60 @@
 <script>
-  export let product;
+  import { formatPrice } from "$lib/utils";
 
-  function formatPrice(price) {
-    const options = { style: "currency", currency: "USD" };
-    return Intl.NumberFormat("en-US", options).format(price);
-  }
+  export let product;
 </script>
 
-<article>
-  <header class="product-header">
-    {product.name}
-  </header>
-  <main>
-    <img src={product.image} alt={product.name} />
-  </main>
-  <footer class="product-footer">
-    <span>{formatPrice(product.price)}</span>
-    <a class="contrast" href="/shop/{product.id}" role="button">+</a>
-  </footer>
-</article>
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<a href={`/shop/${product.id}`}>
+  <article class="product">
+    <main><img src={product.image} alt={product.name} /></main>
+    <footer class="product-footer">
+      {product.name}<br />
+      {formatPrice(product.price)}
+    </footer>
+  </article>
+</a>
 
 <style>
-  .product-header {
-    font-weight: 700;
-    font-size: medium;
+  a {
+    color: darkslategray;
+    text-decoration: none;
+    padding: 0;
   }
 
+  main {
+    display: grid;
+    place-items: center;
+  }
+
+  main > img {
+    height: 250px;
+    object-fit: contain;
+  }
+  .product {
+    color: gray;
+    font-weight: 700;
+    font-size: medium;
+    transition: all cubic-bezier();
+    transition-property: all;
+    transition-duration: 300ms;
+  }
+
+  .product:hover {
+    color: darkslategray;
+    border: 0.5px solid darkslategray;
+    cursor: pointer;
+    box-shadow: none;
+    font-weight: 700;
+    font-size: medium;
+    transition: all cubic-bezier();
+    transition-property: all;
+    transition-duration: 300ms;
+  }
   .product-footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    place-items: left;
+    gap: 1rem;
   }
 </style>

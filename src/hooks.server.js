@@ -1,8 +1,15 @@
 import { authenticateUser } from "$lib/server/auth";
 import { redirect } from "@sveltejs/kit";
 
-export const handle = async ({ event, resolve }) => {
-  event.locals.user = await authenticateUser(event);
+export async function handle({ event, resolve }) {
+  event.locals.user = await authenticateUser(event).catch((e) =>
+    console.log(`🪝 Error during authentication: ${e}`)
+  );
+
+  // No root route
+  if (event.url.pathname === "/") {
+    throw redirect(303, "/shop");
+  }
 
   // Protect user routes
   if (
@@ -25,4 +32,4 @@ export const handle = async ({ event, resolve }) => {
   }
 
   return await resolve(event);
-};
+}

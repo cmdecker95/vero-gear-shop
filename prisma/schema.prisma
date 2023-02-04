@@ -37,6 +37,7 @@ model Order {
   products  Json
   total     Float
   fulfilled Boolean
+  address   String?
   user      User     @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
   userId    String
 }
