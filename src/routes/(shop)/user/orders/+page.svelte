@@ -1,13 +1,8 @@
 <script>
-  export let data;
-  const { products } = data;
+  import { formatPrice } from "$lib/utils";
 
-  const formatPrice = (price) => {
-    return Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
-  };
+  export let data;
+  const { orders } = data;
 </script>
 
 <header>

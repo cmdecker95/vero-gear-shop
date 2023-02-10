@@ -21,6 +21,7 @@
   <section id="order-confirmation">
     <h3>Confirm Your Order</h3>
     <fieldset id="options">
+      <h5>Quick questions for you!</h5>
       <label>
         <input
           type="checkbox"
@@ -166,7 +167,10 @@
 
 <style>
   #options {
-    background-color: var(--secondary);
+    border: 1px dashed var(--secondary);
+    border-radius: 5px;
+    margin-bottom: 2rem;
+    padding: 1rem;
   }
 
   table {

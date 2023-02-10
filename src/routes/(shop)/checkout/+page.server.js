@@ -56,7 +56,7 @@ export const actions = {
 
     const cart = getCart(cookies);
     const address = shipping
-      ? `${first} ${last},${address1} ${address2}, ${city}, ${state} ${zip}`
+      ? `${first} ${last}, ${address1} ${address2}, ${city}, ${state} ${zip}`
       : "";
 
     const data = {

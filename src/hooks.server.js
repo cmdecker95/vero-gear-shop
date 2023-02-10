@@ -6,23 +6,29 @@ export async function handle({ event, resolve }) {
     console.log(`🪝 Error during authentication: ${e}`)
   );
 
+  const path = event.url.pathname;
+
   // No root route
-  if (event.url.pathname === "/") {
+  if (path === "/") {
     throw redirect(303, "/shop");
   }
 
   // Protect user routes
-  if (
-    event.url.pathname.startsWith("/user/orders") ||
-    event.url.pathname.startsWith("/user/me")
-  ) {
+  if (path.startsWith("/user/orders") || path.startsWith("/user/me")) {
+    if (!event.locals.user) {
+      throw redirect(303, "/user/login");
+    }
+  }
+
+  // User must login to checkout
+  if (path.startsWith("/checkout")) {
     if (!event.locals.user) {
       throw redirect(303, "/user/login");
     }
   }
 
   // Protect admin routes
-  if (event.url.pathname.startsWith("/admin")) {
+  if (path.startsWith("/admin")) {
     if (!event.locals.user) {
       throw redirect(303, "/user/login");
     }
