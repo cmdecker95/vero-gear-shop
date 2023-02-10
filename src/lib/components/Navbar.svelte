@@ -1,16 +1,18 @@
 <main class="container-fluid">
   <nav class="container">
     <ul>
-      <li><a class="contrast" href="/shop">VERO Shop</a></li>
+      <li>
+        <a href="/shop">VERO Shop</a>
+      </li>
     </ul>
     <ul>
       <li>
-        <a href="/user/me" class="contrast">
+        <a href="/user/me">
           <i class="fa-solid fa-user" />
         </a>
       </li>
       <li>
-        <a href="/cart" class="contrast">
+        <a href="/cart">
           <i class="fa-solid fa-cart-shopping" />
         </a>
       </li>

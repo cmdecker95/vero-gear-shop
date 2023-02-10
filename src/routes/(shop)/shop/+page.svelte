@@ -21,10 +21,8 @@
 
 <style>
   .products {
+    column-gap: 1rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    row-gap: 1rem;
-    column-gap: 1rem;
-    justify-content: center;
   }
 </style>

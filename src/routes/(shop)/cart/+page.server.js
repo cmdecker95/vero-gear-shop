@@ -1,17 +1,16 @@
+import { redirect } from "@sveltejs/kit";
 import { prisma } from "$lib/server/prisma";
+import { getCart } from "$lib/utils";
 
-export async function load({ fetch }) {
-  const title = "Cart";
+export async function load({ cookies }) {
+  const title = "Checkout";
+  const cart = getCart(cookies);
+
+  if (!cart) throw redirect(302, "/cart");
 
   const detailedCartItems = [];
-  const res = await fetch("/api/cart");
-  let cartItems;
 
-  if (res.ok) {
-    cartItems = await res.json();
-  }
-
-  for (const cartItem of cartItems) {
+  for (const cartItem of cart) {
     const details = await prisma.product.findUnique({
       where: {
         id: cartItem.id,

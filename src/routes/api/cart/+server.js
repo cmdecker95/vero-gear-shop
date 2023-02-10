@@ -13,9 +13,11 @@ export async function GET({ cookies }) {
 }
 
 export async function POST({ request, cookies }) {
-  const data = await request.json();
-  const { id, price, color, size, qty } = data;
-  const cartId = `${id}:${color}:${size}`;
+  const { id, price, color, size, qty } = await request
+    .json()
+    .catch((e) => console.log(e));
+  const cartId = encodeURIComponent(`${id}:${color}:${size}`);
+  console.log(cartId);
   const newItem = {
     id,
     price,
@@ -46,9 +48,10 @@ export async function POST({ request, cookies }) {
 }
 
 export async function PUT({ request, cookies }) {
-  const data = await request.json();
-  const { id, price, color, size, qty, oldCartId } = data;
-  const cartId = `${id}:${color}:${size}`;
+  const { id, price, color, size, qty, oldCartId } = await request
+    .json()
+    .catch((e) => console.log(e));
+  const cartId = encodeURIComponent(`${id}:${color}:${size}`);
   const changedItem = {
     id,
     price,

@@ -9,28 +9,22 @@ export async function load() {
 
 export const actions = {
   addProduct: async ({ request }) => {
-    const data = await request.formData();
-    const name = data.get("name");
-    const price = data.get("price");
-    const colors = data.get("colors");
-    const sizes = data.get("sizes");
-
-    const file = data.get("file");
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const string = buffer.toString("base64");
+    const { image, name, price, colors, sizes } = Object.fromEntries(
+      await request.formData()
+    );
 
     await prisma.product
       .create({
         data: {
-          image: `data:${file.type};base64,${string}`,
+          image,
           name,
           price: parseFloat(price),
           colors: colors.split(","),
           sizes: sizes.split(","),
         },
       })
-      .catch((error) => console.log(error));
+      .catch((e) => console.log(e));
 
-    throw redirect(302, "/admin");
+    throw redirect(302, "/admin/products");
   },
 };

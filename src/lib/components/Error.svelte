@@ -6,9 +6,9 @@
 
 <style>
   p {
-    padding: 1rem;
-    border-left: 3px solid red;
     background-color: rgba(255, 0, 0, 0.1);
+    border-left: 3px solid red;
     color: red;
+    padding: 1rem;
   }
 </style>

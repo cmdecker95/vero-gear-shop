@@ -1,16 +1,19 @@
 <script>
-  import { formatPrice } from "$lib/utils";
+  import { formatPrice, formatImage } from "$lib/utils";
 
   export let product;
+  const { id, image, name, price } = product;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<a href={`/shop/${product.id}`}>
-  <article class="product">
-    <main><img src={product.image} alt={product.name} /></main>
-    <footer class="product-footer">
-      {product.name}<br />
-      {formatPrice(product.price)}
+<a href={`/shop/${id}`}>
+  <article>
+    <span class="price">{formatPrice(price)}</span>
+    <main>
+      <img loading="lazy" src={formatImage(image)} alt={name} />
+    </main>
+    <footer>
+      {name}
     </footer>
   </article>
 </a>
@@ -18,8 +21,41 @@
 <style>
   a {
     color: darkslategray;
-    text-decoration: none;
     padding: 0;
+    text-decoration: none;
+  }
+
+  article {
+    color: gray;
+    font-size: medium;
+    font-weight: 700;
+    transition: all cubic-bezier();
+  }
+
+  article:hover {
+    border: 0.5px solid darkslategray;
+    box-shadow: none;
+    color: darkslategray;
+    cursor: pointer;
+    font-size: medium;
+    font-weight: 700;
+    transition: all cubic-bezier();
+  }
+
+  article:hover > .price {
+    background-color: var(--secondary-hover);
+    cursor: pointer;
+    transition: all cubic-bezier();
+  }
+
+  .price {
+    background-color: var(--secondary);
+    border-radius: 0.2rem;
+    color: white;
+    padding: 0.2rem;
+    position: relative;
+    top: -1rem;
+    left: -1rem;
   }
 
   main {
@@ -31,30 +67,11 @@
     height: 250px;
     object-fit: contain;
   }
-  .product {
-    color: gray;
-    font-weight: 700;
-    font-size: medium;
-    transition: all cubic-bezier();
-    transition-property: all;
-    transition-duration: 300ms;
-  }
-
-  .product:hover {
-    color: darkslategray;
-    border: 0.5px solid darkslategray;
-    cursor: pointer;
-    box-shadow: none;
-    font-weight: 700;
-    font-size: medium;
-    transition: all cubic-bezier();
-    transition-property: all;
-    transition-duration: 300ms;
-  }
-  .product-footer {
+  footer {
+    min-height: 5rem;
+    text-align: center;
     display: flex;
-    flex-direction: column;
-    place-items: left;
-    gap: 1rem;
+    justify-content: center;
+    align-items: center;
   }
 </style>

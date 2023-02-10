@@ -1,10 +1,21 @@
+import { dev } from "$app/environment";
+import { PUBLIC_CF_IMAGES_URL } from "$env/static/public";
+
 export function formatPrice(price) {
   const options = {
     style: "currency",
     currency: "USD",
   };
 
-  return Intl.NumberFormat("en-US", options).format(price);
+  const formattedPrice = Intl.NumberFormat("en-US", options).format(price);
+
+  return formattedPrice;
+}
+
+export function formatImage(imageId, variant = "public") {
+  const formattedImage = `${PUBLIC_CF_IMAGES_URL}/${imageId}/${variant}`;
+
+  return formattedImage;
 }
 
 export function getCart(cookies) {
@@ -15,33 +26,14 @@ export function getCart(cookies) {
   return cart;
 }
 
-export function setCart(cart, cookies) {
+export function setCart(cart, cookies, maxAge = 60 * 60 * 24 * 7) {
   console.log("🍪 Setting cart cookie...");
 
   cookies.set("cart", JSON.stringify(cart), {
     path: "/",
     httpOnly: true,
     sameSite: "strict",
-    secure: process.env.NODE_ENV === "production",
-    maxAge: 60 * 60 * 24 * 7, // 1 week
+    secure: !dev,
+    maxAge, // 1 week by default
   });
-}
-
-export function generateToken(user) {
-  console.log("🔒 Generating token...");
-
-  const userInfo = {
-    id: user.id,
-    name: user.firstname,
-    email: user.email,
-    role: user.role,
-  };
-
-  const jwtUser = jwt.sign(userInfo, JWT_ACCESS_SECRET, {
-    expiresIn: 60 * 60 * 24 * 7, // 1 week
-  });
-
-  console.log(`🔒 Token generated for ${userInfo.name}`);
-
-  return jwtUser;
 }

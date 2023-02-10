@@ -1,8 +1,32 @@
 import { JWT_ACCESS_SECRET } from "$env/static/private";
 import { prisma } from "$lib/server/prisma";
-import { generateToken } from "$lib/utils";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+
+export function generateToken(user, expiresIn = 60 * 60 * 24 * 7) {
+  console.log("🔒 Generating token...");
+
+  const userInfo = {
+    id: user.id,
+    name: user.firstname,
+    email: user.email,
+    role: user.role,
+  };
+
+  const jwtUser = jwt.sign(userInfo, JWT_ACCESS_SECRET, {
+    expiresIn, // 1 week by default
+  });
+
+  console.log(`🔒 Token generated for ${userInfo.name}`);
+
+  return jwtUser;
+}
+
+export function validateToken(token) {
+  const jwtUser = jwt.verify(token, JWT_ACCESS_SECRET);
+
+  return jwtUser;
+}
 
 export async function authenticateUser({ cookies }) {
   console.log("🔒 Authenticating user...");
@@ -16,7 +40,7 @@ export async function authenticateUser({ cookies }) {
   }
 
   // Validate the user JWT
-  const jwtUser = jwt.verify(token, JWT_ACCESS_SECRET);
+  const jwtUser = validateToken(token);
 
   if (typeof jwtUser === "string") {
     console.log("🔒 The JWT was invalid");

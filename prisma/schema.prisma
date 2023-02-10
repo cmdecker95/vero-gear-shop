@@ -36,8 +36,10 @@ model Order {
   updatedAt DateTime @updatedAt
   products  Json
   total     Float
+  donated   Boolean
   fulfilled Boolean
   address   String?
+  phone     String?
   user      User     @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Restrict)
   userId    String
 }

@@ -1,18 +1,16 @@
 <script>
   import { goto } from "$app/navigation";
-  import { formatPrice } from "$lib/utils";
+  import { formatImage, formatPrice } from "$lib/utils";
 
   export let data;
   const { product } = data;
   const { id, image, name, colors, sizes } = product;
-
   let { price } = product;
-  let additionalPrice;
   let color;
   let size;
   let qty = 1;
 
-  async function addToCart() {
+  async function add() {
     await fetch("/api/cart", {
       method: "POST",
       body: JSON.stringify({ id, price, color, size, qty }),
@@ -23,23 +21,16 @@
     goto("/cart");
   }
 
-  $: if (size === "XL") {
-    additionalPrice = 1;
-  } else if (size === "2XL") {
-    additionalPrice = 2;
-  } else if (size === "3XL") {
-    additionalPrice = 3;
-  } else if (size === "4XL") {
-    additionalPrice = 4;
-  } else if (size === "5XL") {
-    additionalPrice = 5;
-  } else if (size === "6XL") {
-    additionalPrice = 6;
-  } else {
-    additionalPrice = 0;
-  }
+  const additionalPricing = {
+    XL: 1,
+    "2XL": 2,
+    "3XL": 3,
+    "4XL": 4,
+    "5XL": 5,
+    "6XL": 6,
+  };
 
-  $: price = product.price + additionalPrice;
+  $: price = product.price + (additionalPricing[size] ?? 0);
   $: if (qty < 1) qty = 1;
 </script>
 
@@ -55,7 +46,7 @@
     {formatPrice(price)}
   </header>
   <main class="grid">
-    <img src={image} alt={name} />
+    <img src={formatImage(image)} alt={name} />
     <section>
       <!-- Color -->
       <label for="color">Color</label>
@@ -83,21 +74,11 @@
     </section>
   </main>
   <footer>
-    <a class="contrast" href="#add" role="button" on:click={addToCart}>Add</a>
+    <a class="contrast" href="#add" role="button" on:click={add}>Add</a>
   </footer>
 </article>
 
 <style>
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  h3 {
-    margin-bottom: 0;
-  }
-
   a {
     text-decoration: none;
   }
@@ -107,10 +88,21 @@
   }
 
   .go-back {
-    display: flex;
     align-items: center;
+    display: flex;
     gap: 0.5rem;
   }
+
+  header {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  h3 {
+    margin-bottom: 0;
+  }
+
   .quantity {
     display: grid;
     grid-template-columns: auto 1fr auto;

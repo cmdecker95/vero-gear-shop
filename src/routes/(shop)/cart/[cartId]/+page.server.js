@@ -1,27 +1,39 @@
+import { redirect } from "@sveltejs/kit";
 import { prisma } from "$lib/server/prisma";
 import { getCart } from "$lib/utils";
-import { redirect } from "@sveltejs/kit";
 
-export async function load({ cookies, params }) {
+export async function load({ fetch, cookies, params }) {
   const cart = getCart(cookies);
 
-  let cartItem;
-  cart.forEach((item) => {
-    if (item.cartId === params.cartId) {
-      cartItem = item;
+  let loadingCartItem;
+  cart.forEach((currentCartItem) => {
+    console.log("currentCartItem.cartId:", currentCartItem.cartId);
+    console.log("params.cartId:", params.cartId);
+    if (decodeURIComponent(currentCartItem.cartId) === params.cartId) {
+      loadingCartItem = currentCartItem;
     }
   });
 
-  if (!cartItem) throw redirect(302, "/cart");
+  if (!loadingCartItem) throw redirect(302, "/cart");
 
   const product = await prisma.product
     .findUnique({
       where: {
-        id: cartItem.id,
+        id: loadingCartItem.id,
       },
     })
-    .catch((error) => console.log(error));
+    .catch((e) => console.log(e));
+
+  if (!product) {
+    await fetch("/api/cart", {
+      method: "DELETE",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ cartId: loadingCartItem.cartId }),
+    });
+    console.log("k");
+    throw redirect(302, "/cart");
+  }
 
   const title = product.name;
-  return { title, cartItem, product };
+  return { title, cartItem: loadingCartItem, product };
 }

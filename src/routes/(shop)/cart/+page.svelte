@@ -1,5 +1,5 @@
 <script>
-  import { formatPrice } from "$lib/utils";
+  import { formatImage, formatPrice } from "$lib/utils";
 
   export let data;
   const { cart, total } = data;
@@ -16,6 +16,7 @@
         <thead>
           <tr>
             <th scope="col" />
+            <th scope="col">Image</th>
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col">Color</th>
@@ -28,11 +29,12 @@
           {#each cart as cartItem (cartItem.cartId)}
             <tr>
               <td>
-                <div class="options">
-                  <a href="/cart/{cartItem.cartId}">
-                    <i class="fa-solid fa-pen-to-square" style="color:black" />
-                  </a>
-                </div>
+                <a href="/cart/{cartItem.cartId}">
+                  <i class="fa-solid fa-pen-to-square" />
+                </a>
+              </td>
+              <td>
+                <img src={formatImage(cartItem.image)} alt={cartItem.name} />
               </td>
               <td>{cartItem.name}</td>
               <td>{formatPrice(cartItem.price)}</td>
@@ -45,6 +47,7 @@
         </tbody>
         <tfoot>
           <tr>
+            <td />
             <td />
             <td />
             <td />
@@ -72,8 +75,11 @@
   figure {
     overflow: scroll;
   }
-  .options {
-    display: flex;
-    gap: 0.6rem;
+  i {
+    color: black;
+  }
+
+  img {
+    max-width: 100px;
   }
 </style>
