@@ -29,7 +29,7 @@
           name="donating"
           bind:checked={donating}
         />
-        🕊️ I would like to donate $10
+        🕊️ I would like to donate to the current VERO students
       </label>
       <label>
         <input
