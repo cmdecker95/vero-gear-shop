@@ -3,6 +3,8 @@
 
   export let product;
   const { id, image, name, price } = product;
+  const formattedImage = formatImage(image);
+  console.log("📷", formattedImage);
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -10,7 +12,7 @@
   <article>
     <span class="price">{formatPrice(price)}</span>
     <main>
-      <img loading="lazy" src={formatImage(image)} alt={name} />
+      <img loading="lazy" src={formattedImage} alt={name} />
     </main>
     <footer>
       {name}
