@@ -1,5 +1,4 @@
 import { dev } from "$app/environment";
-import { PUBLIC_CF_IMAGES_URL } from "$env/static/public";
 
 export function formatPrice(price) {
   const options = {
@@ -13,7 +12,7 @@ export function formatPrice(price) {
 }
 
 export function formatImage(imageId, variant = "public") {
-  const formattedImage = `${PUBLIC_CF_IMAGES_URL}/${imageId}/${variant}`;
+  const formattedImage = `${process.env.PUBLIC_CF_IMAGES_URL}/${imageId}/${variant}`;
 
   return formattedImage;
 }
