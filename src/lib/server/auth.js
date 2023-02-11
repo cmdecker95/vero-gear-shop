@@ -1,4 +1,3 @@
-import { JWT_ACCESS_SECRET } from "$env/static/private";
 import { prisma } from "$lib/server/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -13,7 +12,7 @@ export function generateToken(user, expiresIn = 60 * 60 * 24 * 7) {
     role: user.role,
   };
 
-  const jwtUser = jwt.sign(userInfo, JWT_ACCESS_SECRET, {
+  const jwtUser = jwt.sign(userInfo, process.env.JWT_ACCESS_SECRET, {
     expiresIn, // 1 week by default
   });
 
@@ -23,7 +22,7 @@ export function generateToken(user, expiresIn = 60 * 60 * 24 * 7) {
 }
 
 export function validateToken(token) {
-  const jwtUser = jwt.verify(token, JWT_ACCESS_SECRET);
+  const jwtUser = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
 
   return jwtUser;
 }
