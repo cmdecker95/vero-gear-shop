@@ -3,16 +3,13 @@
 
   export let product;
   const { id, image, name, price } = product;
-  const formattedImage = formatImage(image);
-  console.log("📷", formattedImage);
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
 <a href={`/shop/${id}`}>
   <article>
     <span class="price">{formatPrice(price)}</span>
     <main>
-      <img loading="lazy" src={formattedImage} alt={name} />
+      <img loading="lazy" src={formatImage(image)} alt={name} />
     </main>
     <footer>
       {name}
@@ -22,36 +19,34 @@
 
 <style>
   a {
-    color: darkslategray;
     padding: 0;
     text-decoration: none;
   }
 
   article {
-    color: gray;
+    border: 0.5px solid white;
+    color: var(--darkgrey);
     font-size: medium;
     font-weight: 700;
     transition: all cubic-bezier();
   }
 
   article:hover {
-    border: 0.5px solid darkslategray;
-    box-shadow: none;
-    color: darkslategray;
+    border: 0.5px solid var(--lightgrey);
+    /* box-shadow: none; */
+    color: var(--lightgrey);
     cursor: pointer;
     font-size: medium;
     font-weight: 700;
-    transition: all cubic-bezier();
   }
 
   article:hover > .price {
-    background-color: var(--secondary-hover);
+    background-color: var(--lightgrey);
     cursor: pointer;
-    transition: all cubic-bezier();
   }
 
   .price {
-    background-color: var(--secondary);
+    background-color: var(--darkgrey);
     border-radius: 0.2rem;
     color: white;
     padding: 0.2rem;

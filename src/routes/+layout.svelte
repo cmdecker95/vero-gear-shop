@@ -13,6 +13,13 @@
 </main>
 
 <style>
+  :root {
+    --maroon: #4a0905;
+    --darkgrey: #322c2c;
+    --lightgrey: #717373;
+    --cream: #d6d3c5;
+  }
+
   :global(footer) {
     display: flex;
     justify-content: right;
