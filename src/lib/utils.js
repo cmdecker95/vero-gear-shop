@@ -12,7 +12,7 @@ export function formatPrice(price) {
 }
 
 export function formatImage(imageId, variant = "public") {
-  const formattedImage = `${process.env.PUBLIC_CF_IMAGES_URL}/${imageId}/${variant}`;
+  const formattedImage = `https://imagedelivery.net/${process.env.CF_ACCOUNT_HASH}/${imageId}/${variant}`;
 
   return formattedImage;
 }
