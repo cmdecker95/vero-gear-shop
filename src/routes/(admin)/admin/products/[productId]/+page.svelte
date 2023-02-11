@@ -1,13 +1,13 @@
 <script>
   import { enhance } from "$app/forms";
-  import { formatImage } from "$lib/utils";
+  import { PUBLIC_CF_IMAGES_URL } from "$env/static/public";
 
   export let data;
   let { id, image, name, price, colors, sizes } = data.product;
 
   let newColor;
   let newSize;
-  let url = formatImage(image);
+  let url = `${PUBLIC_CF_IMAGES_URL}/${image}/public`;
 
   function addColor() {
     if (colors.findIndex((color) => color === newColor.toUpperCase()) === -1)
