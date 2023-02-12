@@ -86,47 +86,37 @@
     display: grid;
     place-items: center;
   }
-
   img {
     max-height: 400px;
-    min-width: fit-content;
   }
-
   a {
     text-decoration: none;
   }
-
   a:hover > .go-back {
     color: var(--secondary-hover);
   }
-
   .go-back {
     align-items: center;
     display: flex;
     gap: 0.5rem;
   }
-
   header {
     align-items: center;
     display: flex;
     justify-content: space-between;
   }
-
   h3 {
     margin-bottom: 0;
   }
-
   .quantity {
     display: grid;
     grid-template-columns: auto 1fr auto;
     width: 25%;
   }
-
   .quantity > button {
     border-radius: 0;
     width: 50px;
   }
-
   .quantity > input {
     border-radius: 0;
     width: 100px;
