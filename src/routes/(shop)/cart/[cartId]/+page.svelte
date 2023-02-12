@@ -92,7 +92,7 @@
     </section>
   </main>
   <footer>
-    <a class="secondary outline" href="#remove" role="button" on:click={remove}>
+    <a class="outline" href="#remove" role="button" on:click={remove}>
       Remove
     </a>
     <a class="contrast" href="#save" role="button" on:click={update}>

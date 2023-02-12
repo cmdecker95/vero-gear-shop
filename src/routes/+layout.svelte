@@ -13,16 +13,34 @@
 </main>
 
 <style>
+  /* Texas A&M color palette */
   :root {
-    --maroon: #4a0905;
+    --cream: #d6d3c5;
     --darkgrey: #322c2c;
     --lightgrey: #717373;
-    --cream: #d6d3c5;
+    --maroon: #4a0905;
   }
-
+  /* Customizing Pico CSS */
+  :global(*) {
+    --color: var(--darkgrey);
+    --contrast: var(--darkgrey);
+    --contrast-hover: var(--lightgrey);
+    --form-element-active-border-color: var(--maroon);
+    --primary: var(--maroon);
+    --primary-hover: #800000;
+    --primary-focus: rgba(216, 27, 96, 0.25);
+    --primary-inverse: #fff;
+  }
+  :global(h1, h3, h5, p, label) {
+    color: var(--darkgrey);
+  }
+  :global([type="checkbox"][role="switch"]:checked) {
+    --background-color: var(--maroon);
+    --border-color: var(--maroon);
+  }
   :global(footer) {
     display: flex;
-    justify-content: right;
     gap: 1rem;
+    justify-content: right;
   }
 </style>

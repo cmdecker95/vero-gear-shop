@@ -2,11 +2,11 @@
   import { formatPrice } from "$lib/utils";
 
   export let data;
-  const { orders } = data;
+  const { orders, users } = data;
 </script>
 
 <header>
-  <h1>Orders</h1>
+  <h1><a href="/admin/portal">Admin</a> / Orders</h1>
 </header>
 
 <article>
@@ -16,6 +16,7 @@
         <thead>
           <tr>
             <th scope="col" />
+            <th scope="col">Ordered By</th>
             <th scope="col">Date</th>
             <th scope="col">Status</th>
             <th scope="col">Total</th>
@@ -23,13 +24,14 @@
           </tr>
         </thead>
         <tbody>
-          {#each orders as order, i}
+          {#each orders as order}
             <tr>
               <td>
-                <a href={`/user/orders/${order.id}`}>
+                <a href={`/admin/orders/${order.id}`}>
                   <i class="fa-sharp fa-solid fa-eye" />
                 </a>
               </td>
+              <td>{users.get(order.userId)}</td>
               <td>{order.createdAt.toLocaleString()}</td>
               <td>{order.fulfilled ? "✅ Fulfilled" : "📦 Processing"}</td>
               <td>{formatPrice(order.total)}</td>
@@ -40,9 +42,9 @@
       </table>
     </figure>
   {:else}
-    <p>Orders you place will appear here.</p>
+    <p>Orders placed will appear here.</p>
     <footer>
-      <a class="contrast" href="/shop" role="button">Continue Shopping</a>
+      <a class="contrast" href="/admin/portal" role="button">Admin Portal</a>
     </footer>
   {/if}
 </article>

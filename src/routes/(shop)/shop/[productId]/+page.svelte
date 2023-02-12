@@ -11,6 +11,7 @@
   let qty = 1;
 
   async function add() {
+    if (!color || !size || !qty) return;
     await fetch("/api/cart", {
       method: "POST",
       body: JSON.stringify({ id, price, color, size, qty }),
@@ -46,7 +47,9 @@
     {formatPrice(price)}
   </header>
   <main class="grid">
-    <img src={formatImage(image)} alt={name} />
+    <div class="image">
+      <img src={formatImage(image)} alt={name} />
+    </div>
     <section>
       <!-- Color -->
       <label for="color">Color</label>
@@ -79,6 +82,16 @@
 </article>
 
 <style>
+  .image {
+    display: grid;
+    place-items: center;
+  }
+
+  img {
+    max-height: 400px;
+    min-width: fit-content;
+  }
+
   a {
     text-decoration: none;
   }

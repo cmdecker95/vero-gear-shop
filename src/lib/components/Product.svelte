@@ -19,32 +19,27 @@
 
 <style>
   a {
-    padding: 0;
     text-decoration: none;
   }
-
   article {
+    margin: 0;
     border: 0.5px solid white;
     color: var(--darkgrey);
     font-size: medium;
     font-weight: 700;
     transition: all cubic-bezier();
   }
-
   article:hover {
     border: 0.5px solid var(--lightgrey);
-    /* box-shadow: none; */
     color: var(--lightgrey);
     cursor: pointer;
     font-size: medium;
     font-weight: 700;
   }
-
   article:hover > .price {
     background-color: var(--lightgrey);
     cursor: pointer;
   }
-
   .price {
     background-color: var(--darkgrey);
     border-radius: 0.2rem;
@@ -54,12 +49,10 @@
     top: -1rem;
     left: -1rem;
   }
-
   main {
     display: grid;
     place-items: center;
   }
-
   main > img {
     height: 250px;
     object-fit: contain;

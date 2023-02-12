@@ -62,6 +62,7 @@ export const actions = {
     const data = {
       products: cart.map((cartItem) => ({
         id: cartItem.id,
+        price: cartItem.price,
         color: cartItem.color,
         size: cartItem.size,
         qty: cartItem.qty,

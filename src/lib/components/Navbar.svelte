@@ -22,14 +22,13 @@
 
 <style>
   main {
-    background-color: var(--contrast);
+    background-color: var(--maroon);
     margin-bottom: 2rem;
   }
   a {
     color: white;
   }
-
   a:hover {
-    color: var(--muted-color);
+    color: var(--cream);
   }
 </style>

@@ -1,6 +1,6 @@
 # VERO Shop
 
-Handles the managing, marketing, and selling of products for the Texas A&M VERO Program.
+Handles the managing, marketing, and selling of "VERO Gear" for the Texas A&M VERO Program.
 
 # Deploy the Shop
 

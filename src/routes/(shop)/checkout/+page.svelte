@@ -149,18 +149,18 @@
   {/if}
   <footer>
     <form method="POST">
-      <input type="hidden" name="first" bind:value={first} />
-      <input type="hidden" name="last" bind:value={last} />
-      <input type="hidden" name="phone" bind:value={phone} />
-      <input type="hidden" name="address1" bind:value={address1} />
-      <input type="hidden" name="address2" bind:value={address2} />
-      <input type="hidden" name="city" bind:value={city} />
-      <input type="hidden" name="state" bind:value={state} />
-      <input type="hidden" name="zip" bind:value={zip} />
-      <input type="hidden" name="donating" bind:value={donating} />
-      <input type="hidden" name="shipping" bind:value={shipping} />
-      <input type="hidden" name="total" bind:value={total} />
-      <input type="submit" />
+      <input type="hidden" name="first" bind:value={first} required />
+      <input type="hidden" name="last" bind:value={last} required />
+      <input type="hidden" name="phone" bind:value={phone} required />
+      <input type="hidden" name="address1" bind:value={address1} required />
+      <input type="hidden" name="address2" bind:value={address2} required />
+      <input type="hidden" name="city" bind:value={city} required />
+      <input type="hidden" name="state" bind:value={state} required />
+      <input type="hidden" name="zip" bind:value={zip} required />
+      <input type="hidden" name="donating" bind:value={donating} required />
+      <input type="hidden" name="shipping" bind:value={shipping} required />
+      <input type="hidden" name="total" bind:value={total} required />
+      <input class="contrast" type="submit" required />
     </form>
   </footer>
 </article>
@@ -195,5 +195,10 @@
 
   .pricing {
     text-align: right;
+  }
+
+  form,
+  form > input {
+    margin-bottom: 0;
   }
 </style>

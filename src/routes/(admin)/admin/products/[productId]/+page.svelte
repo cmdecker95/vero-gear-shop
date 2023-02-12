@@ -1,13 +1,12 @@
 <script>
   import { enhance } from "$app/forms";
-  import { PUBLIC_CF_IMAGES_URL } from "$env/static/public";
+  import { formatImage } from "$lib/utils";
 
   export let data;
   let { id, image, name, price, colors, sizes } = data.product;
 
   let newColor;
   let newSize;
-  let url = `${PUBLIC_CF_IMAGES_URL}/${image}/public`;
 
   function addColor() {
     if (colors.findIndex((color) => color === newColor.toUpperCase()) === -1)
@@ -50,7 +49,7 @@
       <input type="hidden" name="id" bind:value={id} />
       <!-- Product image -->
       <section class="upload">
-        <img src={url} alt={name} />
+        <img src={formatImage(image)} alt={name} />
       </section>
       <!-- Product name -->
       <section>

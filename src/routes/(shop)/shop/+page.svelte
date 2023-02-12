@@ -24,5 +24,6 @@
     column-gap: 1rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    row-gap: 1rem;
   }
 </style>

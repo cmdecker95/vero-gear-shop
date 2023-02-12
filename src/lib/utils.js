@@ -1,4 +1,5 @@
 import { dev } from "$app/environment";
+import { env } from "$env/dynamic/public";
 
 export function formatPrice(price) {
   const options = {
@@ -12,7 +13,7 @@ export function formatPrice(price) {
 }
 
 export function formatImage(imageId, variant = "public") {
-  const formattedImage = `https://imagedelivery.net/${process.env.CF_ACCOUNT_HASH}/${imageId}/${variant}`;
+  const formattedImage = `https://imagedelivery.net/${env.PUBLIC_ACCOUNT_HASH}/${imageId}/${variant}`;
 
   return formattedImage;
 }

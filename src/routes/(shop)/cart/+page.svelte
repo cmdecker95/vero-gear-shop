@@ -75,10 +75,6 @@
   figure {
     overflow: scroll;
   }
-  i {
-    color: black;
-  }
-
   img {
     max-width: 100px;
   }

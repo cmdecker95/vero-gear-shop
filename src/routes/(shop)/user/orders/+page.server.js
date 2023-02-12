@@ -10,7 +10,5 @@ export async function load({ locals }) {
     },
   });
 
-  if (orders) console.log(orders);
-
   return { title, orders };
 }
