@@ -4,7 +4,7 @@
 
   export let data;
   const { order, products } = data;
-  const { id, createdAt, fulfilled, total } = order;
+  const { id, createdAt, fulfilled, address, total } = order;
 </script>
 
 <a class="secondary" href="/user/orders">
@@ -33,6 +33,12 @@
           disabled
         />
       </label>
+      {#if address}
+        <label>
+          <strong>Address</strong>
+          <input type="text" value={address} disabled />
+        </label>
+      {/if}
     </fieldset>
   </header>
   <figure>
@@ -106,5 +112,9 @@
   }
   .pricing {
     text-align: right;
+  }
+  form,
+  button {
+    margin-bottom: 0;
   }
 </style>
