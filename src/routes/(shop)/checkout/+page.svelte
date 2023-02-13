@@ -1,8 +1,10 @@
 <script>
   import { enhance } from "$app/forms";
+  import Error from "$lib/components/Error.svelte";
   import StatePicker from "$lib/components/StatePicker.svelte";
   import { formatImage, formatPrice } from "$lib/utils";
 
+  export let form;
   export let data;
   const { cart, subtotal } = data;
 
@@ -102,6 +104,9 @@
   {#if shipping}
     <section id="shipping-address">
       <h3>Shipping Address</h3>
+      {#if form?.error}
+        <Error message={form.error} />
+      {/if}
       <div class="grid">
         <fieldset id="recipient">
           <label>
@@ -150,18 +155,18 @@
   {/if}
   <footer>
     <form method="POST" use:enhance>
-      <input type="hidden" name="first" bind:value={first} required />
-      <input type="hidden" name="last" bind:value={last} required />
-      <input type="hidden" name="phone" bind:value={phone} required />
-      <input type="hidden" name="address1" bind:value={address1} required />
-      <input type="hidden" name="address2" bind:value={address2} required />
-      <input type="hidden" name="city" bind:value={city} required />
-      <input type="hidden" name="state" bind:value={state} required />
-      <input type="hidden" name="zip" bind:value={zip} required />
-      <input type="hidden" name="donating" bind:value={donating} required />
-      <input type="hidden" name="shipping" bind:value={shipping} required />
-      <input type="hidden" name="total" bind:value={total} required />
-      <input class="contrast" type="submit" required />
+      <input type="hidden" name="first" bind:value={first} />
+      <input type="hidden" name="last" bind:value={last} />
+      <input type="hidden" name="phone" bind:value={phone} />
+      <input type="hidden" name="address1" bind:value={address1} />
+      <input type="hidden" name="address2" bind:value={address2} />
+      <input type="hidden" name="city" bind:value={city} />
+      <input type="hidden" name="state" bind:value={state} />
+      <input type="hidden" name="zip" bind:value={zip} />
+      <input type="hidden" name="donating" bind:value={donating} />
+      <input type="hidden" name="shipping" bind:value={shipping} />
+      <input type="hidden" name="total" bind:value={total} />
+      <input class="contrast" type="submit" />
     </form>
   </footer>
 </article>
@@ -173,31 +178,25 @@
     margin-bottom: 2rem;
     padding: 1rem;
   }
-
   table {
     width: 100%;
   }
-
   td {
     padding-inline: 1rem;
   }
-
   img {
     max-width: 100px;
     min-width: 75px;
   }
-
   .form-row {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     width: 100%;
   }
-
   .pricing {
     text-align: right;
   }
-
   form,
   form > input {
     margin-bottom: 0;

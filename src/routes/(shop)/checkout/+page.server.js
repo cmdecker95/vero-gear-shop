@@ -54,6 +54,23 @@ export const actions = {
       total,
     } = Object.fromEntries(await request.formData());
 
+    if (shipping) {
+      let missing = "";
+
+      for (const reqField of [
+        [first, "First name"],
+        [last, "Last name"],
+        [address1, "Address line 1"],
+        [city, "City"],
+        [state, "State"],
+        [zip, "ZIP"],
+      ]) {
+        if (!reqField[0]) missing += `(${reqField[1]}) `;
+      }
+
+      if (missing.length > 0) return { error: `Required fields: ${missing}` };
+    }
+
     const cart = getCart(cookies);
     const address = shipping
       ? `${first} ${last}, ${address1} ${address2}, ${city}, ${state} ${zip}`
