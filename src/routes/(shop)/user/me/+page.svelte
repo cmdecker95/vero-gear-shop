@@ -1,4 +1,5 @@
 <script>
+  import { enhance } from "$app/forms";
   import dog from "$lib/assets/dog.svg";
 
   export let data;
@@ -13,20 +14,20 @@
     </header>
     <section>
       {#if user.role === "ADMIN"}
-        <form method="POST" action="?/admin">
+        <form method="POST" action="?/admin" use:enhance>
           <button>✨ Admin Portal ✨</button>
         </form>
       {/if}
-      <form method="POST" action="?/shop">
+      <form method="POST" action="?/shop" use:enhance>
         <button class="contrast">Shop</button>
       </form>
-      <form method="POST" action="?/cart">
+      <form method="POST" action="?/cart" use:enhance>
         <button class="contrast">Cart</button>
       </form>
-      <form method="POST" action="?/orders">
+      <form method="POST" action="?/orders" use:enhance>
         <button class="contrast">Orders</button>
       </form>
-      <form method="POST" action="?/logout">
+      <form method="POST" action="?/logout" use:enhance>
         <button class="outline secondary">Logout</button>
       </form>
     </section>

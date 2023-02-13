@@ -1,4 +1,5 @@
 <script>
+  import { enhance } from "$app/forms";
   import StatePicker from "$lib/components/StatePicker.svelte";
   import { formatImage, formatPrice } from "$lib/utils";
 
@@ -148,7 +149,7 @@
     </section>
   {/if}
   <footer>
-    <form method="POST">
+    <form method="POST" use:enhance>
       <input type="hidden" name="first" bind:value={first} required />
       <input type="hidden" name="last" bind:value={last} required />
       <input type="hidden" name="phone" bind:value={phone} required />

@@ -1,4 +1,5 @@
 <script>
+  import { enhance } from "$app/forms";
   import { formatImage, formatPrice } from "$lib/utils";
 
   export let data;
@@ -75,7 +76,7 @@
     </table>
   </figure>
   <footer>
-    <form method="POST">
+    <form method="POST" use:enhance>
       <button class="outline">Cancel order</button>
     </form>
   </footer>
