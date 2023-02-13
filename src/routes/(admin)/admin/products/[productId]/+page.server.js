@@ -18,15 +18,18 @@ export async function load({ params }) {
 
 export const actions = {
   save: async function ({ request }) {
-    const { id, name, price, colors, sizes } = Object.fromEntries(
+    const { id, image, name, price, colors, sizes } = Object.fromEntries(
       await request.formData()
     );
+
+    console.log(image);
 
     await prisma.product.update({
       where: {
         id,
       },
       data: {
+        image,
         name,
         price: parseFloat(price),
         colors: colors.split(","),

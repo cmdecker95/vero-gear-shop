@@ -7,6 +7,7 @@
 
   let newColor;
   let newSize;
+  let url = formatImage(image);
 
   function addColor() {
     if (colors.findIndex((color) => color === newColor.toUpperCase()) === -1)
@@ -26,6 +27,10 @@
 
   function deleteSize(oldSize) {
     sizes = sizes.filter((value) => value !== oldSize);
+  }
+
+  function setURL() {
+    url = formatImage(image);
   }
 </script>
 
@@ -47,9 +52,34 @@
 
     <form class="grid" method="POST" action="?/save" use:enhance>
       <input type="hidden" name="id" bind:value={id} />
+      <input type="hidden" name="image" bind:value={image} />
       <!-- Product image -->
-      <section class="upload">
-        <img src={formatImage(image)} alt={name} />
+      <section class="image">
+        <fieldset class="form-group">
+          <input
+            type="text"
+            name="image"
+            placeholder="Image ID"
+            bind:value={image}
+            required
+          />
+          <button class="contrast add" on:click|preventDefault={setURL}>
+            <i class="fa-sharp fa-solid fa-eye" />
+          </button>
+        </fieldset>
+        <div class="preview">
+          {#if url}
+            <img src={url} alt="product" />
+          {:else}
+            <h5>Preview your product image</h5>
+            <p>
+              Upload an image to Cloudflare Images, then copy and paste the <strong
+                >Image ID</strong
+              >
+              above.
+            </p>
+          {/if}
+        </div>
       </section>
       <!-- Product name -->
       <section>
@@ -127,61 +157,38 @@
     display: flex;
     justify-content: space-between;
   }
-
   h3 {
     margin-bottom: 0;
   }
-
   a {
     text-decoration: none;
   }
-
   a:hover > .go-back {
     color: var(--secondary-hover);
   }
-
   .go-back {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
-
   section {
     margin-bottom: 0;
   }
-
   fieldset {
     margin-bottom: 1rem;
   }
-
-  .upload {
-    margin-bottom: 0;
-    display: grid;
-    place-items: center;
-    border: 1px dashed var(--muted-color);
-    border-radius: 5px;
-    color: var(--muted-color);
-  }
-
-  .upload > img {
-    object-fit: contain;
-  }
-
   .submit,
   form {
     margin-bottom: 0;
   }
-
   .form-group {
     display: flex;
     gap: 1rem;
   }
-
   .add {
     padding: 10px;
     width: 100px;
   }
-
   .badges {
     display: flex;
     flex-direction: row;
