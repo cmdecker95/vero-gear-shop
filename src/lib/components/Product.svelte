@@ -7,7 +7,7 @@
 
 <a href={`/shop/${id}`}>
   <article>
-    <span class="price">{formatPrice(price)}</span>
+    <header class="price">{formatPrice(price)}</header>
     <main>
       <img loading="lazy" src={formatImage(image)} alt={name} />
     </main>
@@ -27,6 +27,7 @@
     color: var(--darkgrey);
     font-size: medium;
     font-weight: 700;
+    position: relative;
     transition: all cubic-bezier();
   }
   article:hover {
@@ -36,18 +37,10 @@
     font-size: medium;
     font-weight: 700;
   }
-  article:hover > .price {
-    background-color: var(--lightgrey);
-    cursor: pointer;
-  }
-  .price {
-    background-color: var(--darkgrey);
-    border-radius: 0.2rem;
-    color: white;
-    padding: 0.2rem;
-    position: relative;
-    top: -1rem;
-    left: -1rem;
+  header {
+    color: var(--lightgrey);
+    padding: 1rem;
+    text-align: right;
   }
   main {
     display: grid;
@@ -58,10 +51,12 @@
     object-fit: contain;
   }
   footer {
-    min-height: 5rem;
-    text-align: center;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    display: flex;
+    font-size: medium;
+    justify-content: left;
+    min-height: 5rem;
+    padding: 1rem;
+    text-align: center;
   }
 </style>
