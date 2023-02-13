@@ -54,7 +54,7 @@ export const actions = {
       total,
     } = Object.fromEntries(await request.formData());
 
-    if (shipping) {
+    if (shipping === "true") {
       let missing = "";
 
       for (const reqField of [
@@ -72,9 +72,10 @@ export const actions = {
     }
 
     const cart = getCart(cookies);
-    const address = shipping
-      ? `${first} ${last}, ${address1} ${address2}, ${city}, ${state} ${zip}`
-      : "";
+    const address =
+      shipping === "true"
+        ? `${first} ${last}, ${address1} ${address2}, ${city}, ${state} ${zip}`
+        : null;
 
     const data = {
       products: cart.map((cartItem) => ({

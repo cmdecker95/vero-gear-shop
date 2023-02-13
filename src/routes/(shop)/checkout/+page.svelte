@@ -111,11 +111,11 @@
         <fieldset id="recipient">
           <label>
             First name
-            <input bind:value={first} type="text" name="first" required />
+            <input bind:value={first} type="text" name="first" />
           </label>
           <label>
             Last name
-            <input bind:value={last} type="text" name="last" required />
+            <input bind:value={last} type="text" name="last" />
           </label>
           <label>
             Phone number (optional)
@@ -125,7 +125,7 @@
         <fieldset id="address">
           <label>
             Address line 1
-            <input bind:value={address1} type="text" name="address1" required />
+            <input bind:value={address1} type="text" name="address1" />
           </label>
           <label>
             Address line 2 (optional)
@@ -133,20 +133,14 @@
           </label>
           <label>
             City
-            <input bind:value={city} type="text" name="city" required />
+            <input bind:value={city} type="text" name="city" />
           </label>
           <div class="form-row">
             <label style="flex:1" for="state">
               State
               <StatePicker bind:state />
             </label>
-            <label
-              >ZIP<input
-                bind:value={zip}
-                type="number"
-                name="zip"
-                required
-              /></label
+            <label>ZIP<input bind:value={zip} type="number" name="zip" /></label
             >
           </div>
         </fieldset>
