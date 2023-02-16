@@ -44,7 +44,7 @@
   <article>
     <header>
       <h3>Edit Product</h3>
-      <form action="?/delete" method="post" use:enhance>
+      <form action="?/delete" method="POST" use:enhance>
         <input type="hidden" name="id" bind:value={id} />
         <button class="submit outline contrast"> Delete </button>
       </form>
@@ -104,7 +104,7 @@
           />
         </fieldset>
         <!-- Product colors -->
-        <form on:submit|preventDefault={addColor} use:enhance>
+        <form on:submit|preventDefault={addColor}>
           <fieldset class="form-group">
             <input
               type="text"
@@ -118,17 +118,14 @@
         <!-- Colors added -->
         <div class="badges">
           {#each colors as color}
-            <form
-              on:submit|preventDefault={() => deleteColor(color)}
-              use:enhance
-            >
+            <form on:submit|preventDefault={() => deleteColor(color)}>
               <button class="outline contrast">{color}</button>
             </form>
           {/each}
         </div>
         <input type="hidden" name="colors" value={colors} />
         <!-- Product sizes -->
-        <form on:submit|preventDefault={addSize} use:enhance>
+        <form on:submit|preventDefault={addSize}>
           <fieldset class="form-group">
             <input
               type="text"
@@ -142,7 +139,7 @@
         <!-- Sizes added -->
         <div class="badges">
           {#each sizes as size}
-            <form on:submit|preventDefault={() => deleteSize(size)} use:enhance>
+            <form on:submit|preventDefault={() => deleteSize(size)}>
               <button class="outline contrast">{size}</button>
             </form>
           {/each}
