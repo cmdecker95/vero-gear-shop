@@ -28,7 +28,7 @@
         <button class="contrast">Orders</button>
       </form>
       <form method="POST" action="?/logout" use:enhance>
-        <button class="outline secondary">Logout</button>
+        <button class="outline">Logout</button>
       </form>
     </section>
   </article>

@@ -9,6 +9,9 @@
     <header>
       <h1>Admin Portal</h1>
     </header>
+    <form method="POST" action="?/overview" use:enhance>
+      <button>Overview</button>
+    </form>
     <form method="POST" action="?/products" use:enhance>
       <button class="contrast">Products</button>
     </form>

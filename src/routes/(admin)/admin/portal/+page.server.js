@@ -7,6 +7,9 @@ export async function load() {
 }
 
 export const actions = {
+  overview: async () => {
+    throw redirect(302, "/admin/overview");
+  },
   products: async () => {
     throw redirect(302, "/admin/products");
   },
