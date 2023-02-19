@@ -12,8 +12,13 @@
 
   let donating = false;
   let shipping = false;
+  let donatingAmt = 10;
+  let shippingAmt = 12;
 
-  $: total = subtotal * 1.1 + (donating ? 10 : 0) + (shipping ? 5 : 0);
+  $: total =
+    subtotal +
+    (donating ? Number(donatingAmt) : 0) +
+    (shipping ? shippingAmt : 0);
 </script>
 
 <header>
@@ -34,6 +39,39 @@
         />
         🕊️ I would like to donate to the current VERO students
       </label>
+      {#if donating}
+        <!-- Radios -->
+        <fieldset>
+          <label>
+            <input
+              bind:group={donatingAmt}
+              type="radio"
+              name="donatingAmt"
+              value="10"
+              checked
+            />
+            {formatPrice(10)}
+          </label>
+          <label>
+            <input
+              bind:group={donatingAmt}
+              type="radio"
+              name="donatingAmt"
+              value="25"
+            />
+            {formatPrice(25)}
+          </label>
+          <label>
+            <input
+              bind:group={donatingAmt}
+              type="radio"
+              name="donatingAmt"
+              value="50"
+            />
+            {formatPrice(50)}
+          </label>
+        </fieldset>
+      {/if}
       <label>
         <input
           type="checkbox"
@@ -41,7 +79,7 @@
           name="shipping"
           bind:checked={shipping}
         />
-        🚚 I would like my order shipped
+        🚚 I would like my order shipped (+$12)
       </label>
     </fieldset>
     <figure>
@@ -73,29 +111,27 @@
         </tbody>
         <tfoot>
           <tr>
-            <td />
             <td class="pricing">
               Subtotal<br />
-              Tax<br />
               {#if donating}
-                🕊️ Donation<br />
+                Donation<br />
               {/if}
               {#if shipping}
-                🚚 Shipping<br />
+                Shipping<br />
               {/if}
               <strong>Total</strong>
             </td>
             <td class="pricing">
               {formatPrice(subtotal)}<br />
-              {formatPrice(subtotal * 0.1)}<br />
               {#if donating}
-                {formatPrice(10)}
+                {formatPrice(donatingAmt)}<br />
               {/if}
               {#if shipping}
-                {formatPrice(5)}
+                {formatPrice(shippingAmt)}<br />
               {/if}
               <strong>{formatPrice(total)}</strong>
             </td>
+            <td />
           </tr>
         </tfoot>
       </table>
@@ -189,7 +225,7 @@
     width: 100%;
   }
   .pricing {
-    text-align: right;
+    text-align: left;
   }
   form,
   form > input {
