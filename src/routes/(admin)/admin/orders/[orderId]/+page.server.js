@@ -36,9 +36,25 @@ export async function load({ params }) {
 }
 
 export const actions = {
-  default: async ({ params }) => {
+  cancelorder: async ({ params }) => {
     const { orderId } = params;
     await prisma.order.delete({ where: { id: orderId } });
+    throw redirect(302, "/admin/orders");
+  },
+  unfulfillorder: async ({ params }) => {
+    const { orderId } = params;
+    await prisma.order.update({
+      where: { id: orderId },
+      data: { fulfilled: false },
+    });
+    throw redirect(302, "/admin/orders");
+  },
+  fulfillorder: async ({ params }) => {
+    const { orderId } = params;
+    await prisma.order.update({
+      where: { id: orderId },
+      data: { fulfilled: true },
+    });
     throw redirect(302, "/admin/orders");
   },
 };

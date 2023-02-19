@@ -82,9 +82,18 @@
     </table>
   </figure>
   <footer>
-    <form method="POST" use:enhance>
+    <form method="POST" action="?/cancelorder" use:enhance>
       <button class="outline">Cancel order</button>
     </form>
+    {#if fulfilled}
+      <form method="POST" action="?/unfulfillorder" use:enhance>
+        <button>Mark unfulfilled</button>
+      </form>
+    {:else}
+      <form method="POST" action="?/fulfillorder" use:enhance>
+        <button class="contrast">Mark fulfilled</button>
+      </form>
+    {/if}
   </footer>
 </article>
 
