@@ -2,59 +2,52 @@ import { prisma } from "$lib/server/prisma";
 
 export async function load() {
   const title = "Overview | Admin";
-  console.log("loading...");
 
-  // We need to deliver the following insights on Orders:
-
-  // Donut chart:
-  // - How many orders total?
-  // - How many orders fulfilled/unfulfilled?
-
-  // KPI:
-  // - Total sales
-  // - How many products ordered in total?
-
-  // Bar chart:
-  // - How many of each product ordered?
-
+  // Fetch all orders and products from database
   const orders = await prisma.order.findMany();
+  const products = await prisma.product.findMany();
+
+  // Map product IDs to names, then initialize counts
+  const productNames = new Map();
+  let productCounts = {};
+
+  products.forEach((product) => {
+    productNames.set(product.id, product.name);
+    productCounts[product.name] = 0;
+  });
+
   let orderCount = orders.length;
+  let grandTotal = 0;
   let fulfilledCount = 0;
   let productCount = 0;
-  let products = {};
-  let grandTotal = 0;
 
   for (const order of orders) {
-    console.log("🤖 order.fulfilled:", order.fulfilled);
-    if (order.fulfilled) fulfilledCount++;
     grandTotal += order.total;
-    console.log("$$$:", grandTotal);
 
+    // Tally fulfilled orders
+    if (order.fulfilled) fulfilledCount++;
+
+    // Tally product sales
     for (const product of order.products) {
-      console.log("🤖 product.qty:", product.qty);
-      productCount += product.qty;
+      const { id, qty } = product;
+      const name = productNames.get(id);
 
-      if (product.id in products) {
-        products[product.id] += product.qty;
-      } else {
-        products[product.id] = product.qty;
-      }
+      productCount += qty;
+      productCounts[name] += qty;
     }
   }
 
-  products = Object.entries(products);
-
-  console.log("👨🏽‍🔬 orderCount:", orderCount);
-  console.log("👨🏽‍🔬 fulfilledCount:", fulfilledCount);
-  console.log("👨🏽‍🔬 productCount:", productCount);
-  console.log("👨🏽‍🔬 products:", products);
+  // Sort products by sales (desc)
+  productCounts = Object.fromEntries(
+    Object.entries(productCounts).sort((a, b) => b[1] - a[1])
+  );
 
   return {
     title,
     orderCount,
     fulfilledCount,
     productCount,
-    products,
+    productCounts,
     grandTotal,
   };
 }
