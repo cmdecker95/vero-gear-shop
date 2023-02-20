@@ -22,11 +22,16 @@
 
 <style>
   main {
-    background-color: var(--maroon);
+    background-image: linear-gradient(
+      135deg,
+      rgba(70, 16, 16, 0.9),
+      rgba(0, 0, 0, 0.8) 25% 75%,
+      rgba(49, 44, 45, 0.8)
+    );
     margin-bottom: 2rem;
   }
   a {
-    color: white;
+    color: #fdfdfd;
   }
   a:hover {
     color: var(--cream);

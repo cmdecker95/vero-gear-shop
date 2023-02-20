@@ -27,9 +27,14 @@
 
 <article>
   <section id="order-confirmation">
-    <h3>Confirm Your Order</h3>
+    <h3 style="margin-bottom:0.5rem">Confirm Your Order</h3>
+    <p>
+      After checkout, a VERO student will follow up with you via email. They
+      will confirm your order and provide payment instructions in order for them
+      to fulfill your order.
+    </p>
     <fieldset id="options">
-      <h5>Quick questions for you!</h5>
+      <h5 style="margin-bottom:1rem">Extras</h5>
       <label>
         <input
           type="checkbox"

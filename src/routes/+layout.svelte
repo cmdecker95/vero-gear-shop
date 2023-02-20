@@ -31,6 +31,12 @@
     --primary-focus: rgba(216, 27, 96, 0.25);
     --primary-inverse: #fff;
   }
+  :global(body) {
+    background: #fdfdfd;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 0);
+    background-size: 20px 20px;
+    background-position: -19px -19px;
+  }
   :global(h1, h3, h5, p, label) {
     color: var(--darkgrey);
   }
