@@ -22,7 +22,12 @@
 
 <style>
   main {
-    background-color: var(--maroon);
+    background-image: linear-gradient(
+      90deg,
+      var(--maroon),
+      var(--darkgrey) 75%,
+      rgba(0, 0, 0, 0.1)
+    );
     margin-bottom: 2rem;
   }
   a {
