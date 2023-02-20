@@ -23,15 +23,15 @@
 <style>
   main {
     background-image: linear-gradient(
-      90deg,
-      var(--maroon),
-      var(--darkgrey) 75%,
-      rgba(0, 0, 0, 0.1)
+      135deg,
+      rgba(70, 16, 16, 0.9),
+      rgba(0, 0, 0, 0.8) 25% 75%,
+      rgba(49, 44, 45, 0.8)
     );
     margin-bottom: 2rem;
   }
   a {
-    color: white;
+    color: #fdfdfd;
   }
   a:hover {
     color: var(--cream);

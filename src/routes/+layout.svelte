@@ -32,9 +32,9 @@
     --primary-inverse: #fff;
   }
   :global(body) {
-    background: white;
-    background-image: radial-gradient(var(--lightgrey) 1px, transparent 0);
-    background-size: 40px 40px;
+    background: #fdfdfd;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 0);
+    background-size: 20px 20px;
     background-position: -19px -19px;
   }
   :global(h1, h3, h5, p, label) {

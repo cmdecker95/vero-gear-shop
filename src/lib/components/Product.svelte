@@ -22,11 +22,11 @@
     text-decoration: none;
   }
   article {
-    margin: 0;
     border: 0.5px solid white;
     color: var(--darkgrey);
     font-size: medium;
     font-weight: 700;
+    margin: 0;
     position: relative;
     transition: all cubic-bezier();
   }
