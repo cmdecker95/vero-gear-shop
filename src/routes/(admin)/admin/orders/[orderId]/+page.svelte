@@ -3,7 +3,7 @@
   import { formatImage, formatPrice } from "$lib/utils";
 
   export let data;
-  const { order, products } = data;
+  const { order, products, email } = data;
   const { id, createdAt, fulfilled, address, total } = order;
 </script>
 
@@ -19,24 +19,28 @@
     <fieldset>
       <label>
         <strong>ID</strong>
-        <input type="text" value={id} disabled />
+        <input type="text" value={id} readonly />
       </label>
       <label>
         <strong>Date</strong>
-        <input type="text" value={createdAt.toLocaleString()} disabled />
+        <input type="text" value={createdAt.toLocaleString()} readonly />
       </label>
       <label>
         <strong>Status</strong>
         <input
           type="text"
           value={fulfilled ? "✅ Fulfilled" : "📦 Processing"}
-          disabled
+          readonly
         />
+      </label>
+      <label>
+        <strong>Email</strong>
+        <input type="text" value={email} readonly />
       </label>
       {#if address}
         <label>
           <strong>Address</strong>
-          <input type="text" value={address} disabled />
+          <input type="text" value={address} readonly />
         </label>
       {/if}
     </fieldset>
