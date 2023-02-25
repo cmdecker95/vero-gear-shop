@@ -3,6 +3,8 @@ import { redirect } from "@sveltejs/kit";
 
 export async function load({ params }) {
   const title = "Order";
+
+  // Retrieve order using [orderId]
   const { orderId } = params;
   const order = await prisma.order.findUnique({
     where: {
@@ -11,6 +13,14 @@ export async function load({ params }) {
   });
 
   if (!order) throw redirect(302, "/user/orders");
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: order.userId,
+    },
+  });
+
+  const email = user.email;
 
   const products = [];
 
@@ -32,7 +42,7 @@ export async function load({ params }) {
     products.push(enrichedProduct);
   }
 
-  return { title, order, products };
+  return { title, order, email, products };
 }
 
 export const actions = {
