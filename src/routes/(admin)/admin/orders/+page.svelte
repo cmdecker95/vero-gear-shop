@@ -1,8 +1,16 @@
 <script>
   import { formatPrice } from "$lib/utils";
+  import { goto } from "$app/navigation";
 
   export let data;
   const { orders, users } = data;
+
+  let loading = false;
+
+  function go() {
+    loading = true;
+    goto("/admin/orders/download");
+  }
 </script>
 
 <header>
@@ -10,6 +18,15 @@
 </header>
 
 <article>
+  <header style="text-align:center">
+    {#if loading}
+      <button aria-busy="true" />
+    {:else}
+      <button on:click={go}>
+        <i class="fa-solid fa-file-excel" />&nbsp; Export Spreadsheet
+      </button>
+    {/if}
+  </header>
   {#if orders.length > 0}
     <figure>
       <table role="grid">
