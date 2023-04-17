@@ -3,9 +3,8 @@ import { prisma } from "$lib/server/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+/* Generate a token (JWT) for the user */
 export function generateToken(user, expiresIn = 60 * 60 * 24 * 7) {
-  console.log("🔒 Generating token...");
-
   const userInfo = {
     id: user.id,
     name: user.firstname,
@@ -13,31 +12,28 @@ export function generateToken(user, expiresIn = 60 * 60 * 24 * 7) {
     role: user.role,
   };
 
-  const jwtUser = jwt.sign(userInfo, env.JWT_ACCESS_SECRET, {
+  return jwt.sign(userInfo, env.JWT_ACCESS_SECRET, {
     expiresIn, // 1 week by default
   });
-
-  console.log(`🔒 Token generated for ${userInfo.name}`);
-
-  return jwtUser;
 }
 
+/* Make sure a JWT has not been tampered with */
 export function validateToken(token) {
-  const jwtUser = jwt.verify(token, env.JWT_ACCESS_SECRET);
-
-  return jwtUser;
+  return jwt.verify(token, env.JWT_ACCESS_SECRET);
 }
 
-export async function authenticateUser({ cookies, request }) {
+/* Grant permissions based on user JWT */
+export async function authenticateUser({ cookies }) {
   // Check for user JWT in cookies
   const token = cookies.get("auth");
 
+  // If no JWT found, user has no permissions
   if (!token) {
     console.log("🔒 None");
     return null;
   }
 
-  // Validate the user JWT
+  // Otherwise, validate the user JWT
   const jwtUser = validateToken(token);
 
   if (typeof jwtUser === "string") {
@@ -45,7 +41,7 @@ export async function authenticateUser({ cookies, request }) {
     return null;
   }
 
-  // Check for user in database
+  // For valid user JWTs, check for user in database
   const user = await prisma.user
     .findUnique({ where: { id: jwtUser.id } })
     .catch((e) => console.log(`🔒 Error retrieving user from database: ${e}`));
@@ -55,7 +51,7 @@ export async function authenticateUser({ cookies, request }) {
     return null;
   }
 
-  // Return user info
+  // Return info for user found
   const userInfo = {
     id: user.id,
     name: user.firstname,
@@ -68,6 +64,7 @@ export async function authenticateUser({ cookies, request }) {
   return userInfo;
 }
 
+/* Create a new user from the Register form */
 export async function createUser(firstname, lastname, email, password) {
   console.log(`🔒 Creating user in database for ${firstname} ${lastname}...`);
 
@@ -114,13 +111,14 @@ export async function createUser(firstname, lastname, email, password) {
   return { error, token };
 }
 
+/* Login a user and return JWT if email/pass valid */
 export async function loginUser(email, password) {
   console.log(`🔒 Logging in ${email}...`);
 
   let error;
   let token;
 
-  // Verify user exists
+  // Verify user exists in database
   const user = await prisma.user.findUnique({ where: { email } }).catch((e) => {
     error = "Error finding user in database";
     console.log(`🔒 ${error}: ${e}`);

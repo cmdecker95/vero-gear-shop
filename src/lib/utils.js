@@ -1,34 +1,26 @@
 import { dev } from "$app/environment";
 import { env } from "$env/dynamic/public";
 
+/* Format a price from float to dollars: 5.4 -> $5.40 */
 export function formatPrice(price) {
-  const options = {
+  return Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-  };
-
-  const formattedPrice = Intl.NumberFormat("en-US", options).format(price);
-
-  return formattedPrice;
+  }).format(price);
 }
 
+/* Get the image URL for a "CloudFlare Images" image ID & variant */
 export function formatImage(imageId, variant = "public") {
-  const formattedImage = `https://imagedelivery.net/${env.PUBLIC_ACCOUNT_HASH}/${imageId}/${variant}`;
-
-  return formattedImage;
+  return `https://imagedelivery.net/${env.PUBLIC_ACCOUNT_HASH}/${imageId}/${variant}`;
 }
 
+/* Retrieve the cart Object from browser cookies */
 export function getCart(cookies) {
-  console.log("🍪 Getting cart cookie...");
-
-  const cart = JSON.parse(cookies.get("cart") ?? "[]");
-
-  return cart;
+  return JSON.parse(cookies.get("cart") ?? "[]");
 }
 
+/* Save the cart Object in browser cookies */
 export function setCart(cart, cookies, maxAge = 60 * 60 * 24 * 7) {
-  console.log("🍪 Setting cart cookie...");
-
   cookies.set("cart", JSON.stringify(cart), {
     path: "/",
     httpOnly: true,
