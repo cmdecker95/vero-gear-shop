@@ -1,7 +1,10 @@
 import { sveltekit } from "@sveltejs/kit/vite";
 
-const config = {
+export default {
   plugins: [sveltekit()],
+  build: {
+    rollupOptions: {
+      external: ["chart.js"],
+    },
+  },
 };
-
-export default config;

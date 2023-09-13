@@ -1,7 +1,6 @@
 <script>
   import { formatPrice } from "$lib/utils";
   import { Bar, Doughnut } from "svelte-chartjs";
-  import "chart.js/auto";
 
   export let data;
   const {
